@@ -104,6 +104,16 @@
           <includes>
             <include>${testInclude}</include>
           </includes>
+          <!-- TODO stream line config with sonar-dotnet and autoscan -->
+          <properties>
+            <configurationParameters>
+              junit.jupiter.execution.parallel.enabled=true
+              # Run different classes in parallel
+              junit.jupiter.execution.parallel.mode.classes.default=concurrent
+              # Run tests within a class on the same thread
+              junit.jupiter.execution.parallel.mode.default=same_thread
+            </configurationParameters>
+          </properties>
         </configuration>
       </plugin>
     </plugins>

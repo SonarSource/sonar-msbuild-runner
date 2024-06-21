@@ -44,21 +44,26 @@ public class Tests implements BeforeAllCallback, AfterAllCallback {
     .activateLicense()
     .build();
 
-  private volatile int usageCount;
+  private static volatile int usageCount;
 
   @Override
   public void beforeAll(ExtensionContext extensionContext) {
-    usageCount += 1;
-    if (usageCount == 1) {
-      ORCHESTRATOR.start();
+    synchronized (Tests.class) {
+      usageCount += 1;
+      if (usageCount == 1) {
+        ORCHESTRATOR.start();
+        // TODO run a warmup to avoid caching problems when installing the scanner. sonar-dotnet and autoscan do this by analyzing an empty project.
+      }
     }
   }
 
   @Override
   public void afterAll(ExtensionContext extensionContext) throws Exception {
-    usageCount -= 1;
-    if (usageCount == 0) {
-      ORCHESTRATOR.stop();
+    synchronized (Tests.class) {
+      usageCount -= 1;
+      if (usageCount == 0) {
+        ORCHESTRATOR.stop();
+      }
     }
   }
 }

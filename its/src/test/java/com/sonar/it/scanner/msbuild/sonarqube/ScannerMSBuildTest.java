@@ -114,7 +114,7 @@ class ScannerMSBuildTest {
 
   @BeforeEach
   public void setUp() {
-    TestUtils.reset(ORCHESTRATOR);
+    // TestUtils.reset(ORCHESTRATOR); // TODO check if disabling the reset caused any problems
     seenByProxy.clear();
   }
 

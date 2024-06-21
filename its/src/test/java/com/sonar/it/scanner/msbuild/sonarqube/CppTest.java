@@ -52,8 +52,8 @@ class CppTest {
   public Path basePath;
 
   @BeforeEach
-  public void setUp(){
-    TestUtils.reset(ORCHESTRATOR);
+  public void setUp() {
+    // TestUtils.reset(ORCHESTRATOR); // TODO check if disabling the reset caused any problems
   }
 
   @Test
