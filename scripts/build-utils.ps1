@@ -87,9 +87,16 @@ function Invoke-MSBuild (
         $remainingArgs += "/v:quiet"
     }
 
-    $msbuildExe = Get-MsBuildPath
-    Exec { & $msbuildExe $solutionPath $remainingArgs `
-    } -errorMessage "ERROR: Build FAILED."
+    try {
+        $msbuildExe = Get-MsBuildPath
+        Exec { & $msbuildExe $solutionPath $remainingArgs `
+        } -errorMessage "ERROR: Build FAILED."            
+    }
+    catch {
+        Write-Host "Fallback to dotnet msbuild"
+        Exec { & dotnet msbuild $solutionPath $remainingArgs `
+        } -errorMessage "ERROR: Build FAILED."            
+    }
 }
 
 # Tests
